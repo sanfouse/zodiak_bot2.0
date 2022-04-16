@@ -18,7 +18,7 @@ markup = types.InlineKeyboardMarkup().add(
 keyboard = types.InlineKeyboardMarkup(row_width=2).add(
       types.InlineKeyboardButton(text='Совместимость💞', callback_data='Совместимость'), 
       types.InlineKeyboardButton(text='Гороскоп⛎', callback_data='Гороскоп'),
-      types.InlineKeyboardButton(text='Натальная карта🀄️', callback_data='Натальная карта'))
+      types.InlineKeyboardButton(text='Натальная карта🀄️ (beta)', callback_data='Натальная карта'))
 
 cancel_markup = types.InlineKeyboardMarkup().add(
     types.InlineKeyboardButton(text='Назад', callback_data='cancel'))

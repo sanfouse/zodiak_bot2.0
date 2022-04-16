@@ -6,9 +6,9 @@ from data.buttons import *
 from data.config import BOT_TOKEN
 from data.messages import start_text
 from states.loadState import Compatibility, NatalnayaKarta
+from utils.filter import message_filter, check_message
 from utils.horoscope import check_zodiak, get_compatibility, get_horoscope
 from utils.natalnaja_karta import get_natalnaja_karta
-from utils.filter import message_filter
 
 bot = Bot(token=BOT_TOKEN)
 storage = MemoryStorage()
@@ -34,7 +34,7 @@ async def compatibility_message(message: types.CallbackQuery):
 
 @dp.callback_query_handler(lambda m: m.data == 'Натальная карта')
 async def natalnaya_karta_message(message: types.CallbackQuery):
-      await message.message.edit_text('Введите дату рождения: ', parse_mode="Markdown", reply_markup=cancel_markup)
+      await message.message.edit_text('Введите *дату* рождения:👇🏻👇🏻👇🏻\n\n _Пример ввода: 01.01.2000_', parse_mode="Markdown", reply_markup=cancel_markup)
       await NatalnayaKarta.date.set()
 
 
@@ -91,7 +91,7 @@ async def love1(message:types.CallbackQuery, state: FSMContext):
 
 
 @dp.callback_query_handler(lambda m: message_filter(m.data), state=NatalnayaKarta.date)
-@dp.message_handler(state=NatalnayaKarta.date)
+@dp.message_handler(lambda m: check_message(m.text), state=NatalnayaKarta.date)
 async def natalny_map_date(message:types.Message, state: FSMContext):
     date = message.text
     try:
@@ -100,15 +100,17 @@ async def natalny_map_date(message:types.Message, state: FSMContext):
           'date': date
         }
       )
-      await message.answer('Введите время рождения: ', reply_markup=cancel_markup)
+      await message.answer('Введите *время* рождения: 👇🏻👇🏻👇🏻\n\n _Пример ввода: 10:00_',
+            reply_markup=cancel_markup, parse_mode="Markdown")
       await NatalnayaKarta.next()
     except Exception as ex:
       print(ex)
+      await message.edit_text(start_text, reply_markup=keyboard, parse_mode="Markdown")
       await state.finish()
 
 
 @dp.callback_query_handler(lambda m: message_filter(m.data), state=NatalnayaKarta.time)
-@dp.message_handler(state=NatalnayaKarta.time)
+@dp.message_handler(lambda m: check_message(m.text), state=NatalnayaKarta.time)
 async def natalny_map_time(message:types.Message, state: FSMContext):
     time = message.text
     try:
@@ -117,10 +119,12 @@ async def natalny_map_time(message:types.Message, state: FSMContext):
           'time': time
         }
       )
-      await message.answer('Введите город: ', reply_markup=cancel_markup)
+      await message.answer('Введите *город*: 👇🏻👇🏻👇🏻\n\n _Пример ввода: Москва_',
+             reply_markup=cancel_markup, parse_mode="Markdown")
       await NatalnayaKarta.next()
     except Exception as ex:
       print(ex)
+      await message.edit_text(start_text, reply_markup=keyboard, parse_mode="Markdown")
       await state.finish()
 
 
@@ -142,6 +146,7 @@ async def natalny_map_city(message:types.Message, state: FSMContext):
       await NatalnayaKarta.next()
     except Exception as ex:
       print(ex)
+      await message.edit_text(start_text, reply_markup=keyboard, parse_mode="Markdown")
       await state.finish()
 
 
@@ -160,6 +165,12 @@ async def cancel_compatibility(message: types.CallbackQuery, state: FSMContext):
 @dp.callback_query_handler(lambda m: m.data == 'cancel', state=NatalnayaKarta)
 async def cancel_natalny_map(message: types.CallbackQuery, state: FSMContext):
   await message.message.edit_text(start_text, reply_markup=keyboard, parse_mode="Markdown")
+  await state.finish()
+
+
+@dp.message_handler(lambda m: check_message(m.text) == False, state=NatalnayaKarta)
+async def cancel_natalny_map(message: types.CallbackQuery, state: FSMContext):
+  await message.answer(start_text + '\n\n_Неверный ввод_', reply_markup=keyboard, parse_mode="Markdown")
   await state.finish()
 
 

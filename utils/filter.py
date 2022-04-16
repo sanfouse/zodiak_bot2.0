@@ -1,6 +1,4 @@
 def message_filter(message):
-      message_date = message.split('.')
-      message_time = message.split(':')
       if message not in 'cancel' and 'next' and 'back':
             return True
 

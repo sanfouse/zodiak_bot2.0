@@ -6,7 +6,7 @@ from data.buttons import *
 from data.config import BOT_TOKEN
 from data.messages import start_text
 from states.loadState import Compatibility, NatalnayaKarta
-from utils.filter import message_filter, check_message
+from utils.filter import check_message, message_filter
 from utils.horoscope import check_zodiak, get_compatibility, get_horoscope
 from utils.natalnaja_karta import get_natalnaja_karta
 
@@ -133,8 +133,10 @@ async def natalny_map_time(message:types.Message, state: FSMContext):
 async def natalny_map_city(message:types.Message, state: FSMContext):
     city_user = message.text
     await state.update_data(
-      {'city': city_user,
-      'counter': 1} 
+      {
+        'city': city_user,
+        'counter': 1
+      } 
     )
     data = await state.get_data()
     date = data.get('date')

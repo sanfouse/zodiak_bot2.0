@@ -22,6 +22,10 @@ def get_natalnaja_karta(date='01.01.2000', time='10:00', city='Москва', do
       responce = requests.post(url, headers=header, data=data).text
       soup = BeautifulSoup(responce, 'lxml')
       block = soup.find('div', id='natals').text
-      return [block.split('\n\n')[counter]]
-
+      result = [block.split('\n\n')[counter]][0] + '\n'
+      result_2 = [block.split('\n\n')[counter + 1]][0]
+      if len(result) < 50:
+            result = result + result_2
+            del result_2
+      return [result]
 

@@ -13,7 +13,7 @@ markup = types.InlineKeyboardMarkup().add(
     types.InlineKeyboardButton(text='Водолей♒', callback_data='aquarius'),
     types.InlineKeyboardButton(text='Рыбы♓', callback_data='pisces'),
     types.InlineKeyboardButton(text='Овен♈', callback_data='aries'),
-    types.InlineKeyboardButton(text='Назад', callback_data='cancel'))
+    types.InlineKeyboardButton(text='Выход❌', callback_data='cancel'))
 
 keyboard = types.InlineKeyboardMarkup(row_width=2).add(
       types.InlineKeyboardButton(text='Совместимость💞', callback_data='Совместимость'), 
@@ -21,13 +21,13 @@ keyboard = types.InlineKeyboardMarkup(row_width=2).add(
       types.InlineKeyboardButton(text='Натальная карта🀄️ (beta)', callback_data='Натальная карта'))
 
 cancel_markup = types.InlineKeyboardMarkup().add(
-    types.InlineKeyboardButton(text='Назад', callback_data='cancel'))
+    types.InlineKeyboardButton(text='Выход❌', callback_data='cancel'))
 
 map_markup = types.InlineKeyboardMarkup().add(
-    types.InlineKeyboardButton(text='Назад', callback_data='back'),
-    types.InlineKeyboardButton(text='Следующая страница', callback_data='next'),
-    types.InlineKeyboardButton(text='Выход', callback_data='cancel'))
+    types.InlineKeyboardButton(text='⬅️', callback_data='back'),
+    types.InlineKeyboardButton(text='➡️', callback_data='next'),
+    types.InlineKeyboardButton(text='Выход❌', callback_data='cancel'))
 
 map_markup2 = types.InlineKeyboardMarkup().add(
-    types.InlineKeyboardButton(text='Следующая страница', callback_data='next'),
-    types.InlineKeyboardButton(text='Выход', callback_data='cancel'))
+    types.InlineKeyboardButton(text='➡️', callback_data='next'),
+    types.InlineKeyboardButton(text='Выход❌', callback_data='cancel'))
